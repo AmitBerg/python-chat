@@ -2,7 +2,7 @@ asgi-redis
 channels
 daphne
 Django
-gunicorn
+gunicorn==18.0
 whitenoise
 dj-database-url
 psycopg2
