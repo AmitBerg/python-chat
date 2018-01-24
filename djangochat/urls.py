@@ -14,12 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
+from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.views import login, logout
 
 from chat.views import index
 
 urlpatterns = [
+    url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
     url(r'^admin/', admin.site.urls),
     url(r'^', include('chat.urls')),
     url(r'^accounts/login/$', login, name='login'),  # The base django login view
