@@ -4,3 +4,4 @@ daphne
 Django
 gunicorn
 whitenoise
+dj-database-url
