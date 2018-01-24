@@ -55,7 +55,8 @@ $(function () {
                 case 0:
                     // Message
                     ok_msg = "<div class='message'>" +
-                        "<span class='username'>" + data.username + "</span>" +
+                        "<span class='time'>" + new Date().toLocaleTimeString() + "</span>" +
+                        "<span class='username'>" + " " + data.username + ": " +"</span>" +
                         "<span class='body'>" + data.message + "</span>" +
                         "</div>";
                     break;

@@ -120,13 +120,14 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-REDIS_HOST = ("redis-14557.c6.eu-west-1-1.ec2.cloud.redislabs.com", 14557)
+REDIS_HOST = os.environ['REDIS_HOST']
+REDIS_PORT = os.environ['REDIS_PORT']
 
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "asgi_redis.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("localhost", 6379)],
+            "hosts": [(REDIS_HOST, REDIS_PORT)],
         },
         "ROUTING": "djangochat.routing.channel_routing",
     },
