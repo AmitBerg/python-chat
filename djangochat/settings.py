@@ -26,8 +26,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["localhost",
                  "127.0.0.1",
-                 "http://django-ws-chat.herokuapp.com/",
-                 "https://django-ws-chat.herokuapp.com/"]
+                 "django-ws-chat.herokuapp.com",]
 
 # Application definition
 
