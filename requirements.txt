@@ -2,3 +2,4 @@ asgi-redis
 channels
 daphne
 Django
+gunicron
