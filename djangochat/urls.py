@@ -21,7 +21,6 @@ from django.contrib.auth.views import login, logout
 from chat.views import index
 
 urlpatterns = [
-    url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
     url(r'^admin/', admin.site.urls),
     url(r'^', include('chat.urls')),
     url(r'^accounts/login/$', login, name='login'),  # The base django login view
