@@ -121,7 +121,8 @@ STATICFILES_DIRS = [
 ]
 
 REDIS_HOST = os.environ['REDIS_HOST']
-REDIS_PORT = os.environ['REDIS_PORT']
+REDIS_PORT = int(os.environ['REDIS_PORT'])
+
 
 CHANNEL_LAYERS = {
     "default": {
