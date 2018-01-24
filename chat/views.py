@@ -22,7 +22,7 @@ def index(request):
 
 class ChatRoomsListView(ListView):
     queryset = Room
-    template_name = 'chat/rooms.html'
+    template_name = 'chat/index.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ChatRoomsListView, self).get_context_data()

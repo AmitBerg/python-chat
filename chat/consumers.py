@@ -3,10 +3,6 @@ from channels.auth import channel_session_user_from_http, channel_session_user
 import logging
 import json
 
-# not used now
-# from channels.sessions import channel_session
-# from urllib.parse import parse_qs
-
 from .settings import NOTIFY_USERS_ON_ENTER_OR_LEAVE_ROOMS, MSG_TYPE_ENTER, MSG_TYPE_LEAVE
 from .utils import catch_client_error, get_room_or_error
 from .models import Room
@@ -55,8 +51,8 @@ def ws_receive(message):
 # it as message.user. There's also a http_session_user if you want to do this on
 # a low-level HTTP handler, or just channel_session if all you want is the
 # message.channel_session object without the auth fetching overhead.
-@channel_session_user
 @catch_client_error
+@channel_session_user
 def chat_join(message):
     # Find the room they requested (by ID) and add ourselves to the send group
     # Note that, because of channel_session_user, we have a message.user
@@ -65,7 +61,7 @@ def chat_join(message):
 
     # Send a "enter message" to the room if available
     if NOTIFY_USERS_ON_ENTER_OR_LEAVE_ROOMS:
-        room.send_message(None, message.user, MSG_TYPE_ENTER)
+        room.send_message("Has joined the room", message.user, MSG_TYPE_ENTER)
 
     # OK, add them in. The websocket_group is what we'll send messages
     # to so that everyone in the chat room gets them.
@@ -88,7 +84,7 @@ def chat_leave(message):
     room = get_room_or_error(message["room"], message.user)
 
     if NOTIFY_USERS_ON_ENTER_OR_LEAVE_ROOMS:
-        room.send_message(None, message.user, MSG_TYPE_LEAVE)
+        room.send_message("Has left the room", message.user, MSG_TYPE_LEAVE)
 
     room.websocket_group.discard(message.reply_channel)
     message.channel_session['rooms'] = list(set(message.channel_session['rooms']).difference([room.id]))
@@ -106,38 +102,3 @@ def chat_send(message):
         raise ClientError("ROOM_ACCESS_DENIED")
     room = get_room_or_error(message["room"], message.user)
     room.send_message(message["message"], message.user)
-
-# # Connected to websocket.connect
-# @channel_session
-# def ws_connect(message, room_name):
-#     # Accept connection
-#     message.reply_channel.send({"accept": True})
-#     # Parse the query string
-#     params = parse_qs(message.content["query_string"])
-#     if b"username" in params:
-#         username = params[b"username"][0].decode("utf8")
-#         logging.info("the user {} has connected".format(username))
-#         # Set the username in the session
-#         message.channel_session["username"] = params[b"username"][0].decode("utf8")
-#         # Add the user to the room_name group
-#         Group("chat-%s" % room_name).add(message.reply_channel)
-#     else:
-#         # Close the connection.
-#         message.reply_channel.send({"close": True})
-#
-#
-# # Connected to websocket.receive
-# @channel_session
-# def ws_message(message, room_name):
-#     Group("chat-%s" % room_name).send({
-#         "text": json.dumps({
-#             "text": message["text"],
-#             "username": message.channel_session["username"],
-#         }),
-#     })
-#
-#
-# # Connected to websocket.disconnect
-# @channel_session
-# def ws_disconnect(message, room_name):
-#     Group("chat-%s" % room_name).discard(message.reply_channel)

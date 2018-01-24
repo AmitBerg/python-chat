@@ -8,6 +8,9 @@
     <ul class="rooms">
         {% for room in rooms %}
             <li class="room-link" data-room-id="{{ room.id }}">{{ room.title }}</li>
+{#            <li><a class="room-link" data-room-id="{{ room.id }}" href="{% url "chat:single_room" pk=room.pk %}">#}
+{#                {{ room.title }}#}
+{#            </a></li>#}
         {% empty %}
             <p class="empty">No chat rooms defined. Maybe make some in the <a href="{% url 'admin:index' %}">admin</a>?</p>
         {% endfor %}

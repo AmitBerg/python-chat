@@ -21,7 +21,7 @@ from chat.views import index
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    # url(r'^', include('chat.urls')),
+    url(r'^', include('chat.urls')),
     url(r'^accounts/login/$', login, name='login'),  # The base django login view
     url(r'^accounts/logout/$', logout, name='logout'),  # The base django logout view
     url(r'^$', index, name='homepage'),  # The start point for index view)
