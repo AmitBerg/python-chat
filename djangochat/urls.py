@@ -14,17 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-from django.conf import settings
 from django.contrib import admin
-from django.contrib.auth.views import login, logout
+from django.contrib.auth import views as auth_views
 
-from chat.views import index
+from chat.views import index, signup
+
 
 urlpatterns = [
+    url(r'^login/$', auth_views.login, name='login'),  # The base django login view
+    url(r'^logout/$', auth_views.logout, name='logout'),  # The base django logout view
+    url(r'^signup/$', signup, name='signup'),  # The base django logout view
     url(r'^admin/', admin.site.urls),
     url(r'^', include('chat.urls')),
-    url(r'^accounts/login/$', login, name='login'),  # The base django login view
-    url(r'^accounts/logout/$', logout, name='logout'),  # The base django logout view
     url(r'^$', index, name='homepage'),  # The start point for index view)
 
 ]
