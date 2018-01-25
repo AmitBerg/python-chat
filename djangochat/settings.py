@@ -130,7 +130,6 @@ STATICFILES_DIRS = [
 REDIS_HOST = os.environ['REDIS_HOST']
 REDIS_PORT = int(os.environ['REDIS_PORT'])
 
-
 REDIS_LOCALHOST = ("localhost", 6379)
 
 CHANNEL_LAYERS = {
@@ -153,3 +152,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 db_from_env = dj_database_url.config()
 DATABASES['default'].update(db_from_env)
+
+try:
+    from .local import *
+except ImportError:
+    pass
