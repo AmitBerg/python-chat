@@ -137,7 +137,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "asgi_redis.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [REDIS_LOCALHOST],
+            "hosts": [(REDIS_HOST, REDIS_PORT)],
         },
         "ROUTING": "djangochat.routing.channel_routing",
     },
