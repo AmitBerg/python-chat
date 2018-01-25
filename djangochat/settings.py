@@ -131,15 +131,19 @@ REDIS_HOST = os.environ['REDIS_HOST']
 REDIS_PORT = int(os.environ['REDIS_PORT'])
 
 
+REDIS_LOCALHOST = ("localhost", 6379)
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "asgi_redis.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [(REDIS_HOST, REDIS_PORT)],
+            "hosts": [REDIS_LOCALHOST],
         },
         "ROUTING": "djangochat.routing.channel_routing",
     },
 }
+
+LOGIN_URL = '/login/'
 
 LOGIN_REDIRECT_URL = "/"
 
