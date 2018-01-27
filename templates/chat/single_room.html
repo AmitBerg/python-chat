@@ -3,4 +3,18 @@
 
     <h1>{{ object.title }}</h1>
 
+    <div id="chats">
+        <div class='room' id='room-{{ object.id }}'>
+            <div class='messages'></div>
+            <input id="message-input"><button id='send-btn'>Send</button>
+        </div>
+    </div>
+
+    <div class="chat">
+        <div class="chat-history">
+            <ul>
+            </ul>
+        </div>
+    </div>
+
 {% endblock content %}

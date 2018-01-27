@@ -1,22 +1,48 @@
 {% extends 'base.html' %}
 
-{% block title %}MultiChat Example{% endblock %}
-{% block header_text %}MultiChat Example{% endblock %}
-
 {% block content %}
 
+    <h2>Rooms:</h2>
     <ul class="rooms">
         {% for room in rooms %}
-            <li class="room-link" data-room-id="{{ room.id }}">{{ room.title }}</li>
-{#            <li><a class="room-link" data-room-id="{{ room.id }}" href="{% url "chat:single_room" pk=room.pk %}">#}
-{#                {{ room.title }}#}
-{#            </a></li>#}
+            <li><a class="room-link" data-room-id="{{ room.id }}" href="{% url "chat:single_room" pk=room.pk %}">
+                {{ room.title }}
+            </a></li>
         {% empty %}
-            <p class="empty">No chat rooms defined. Maybe make some in the <a href="{% url 'admin:index' %}">admin</a>?</p>
+            <p class="empty">No chat rooms defined. Maybe make some in the <a href="{% url 'admin:index' %}">admin</a>?
+            </p>
         {% endfor %}
     </ul>
 
-    <div id="chats">
+    <div id="chats"></div>
+
+    <!-- single message -->
+    <div class="chat">
+        <div class="chat-history">
+            <ul style="list-style: none">
+                <li class="clearfix">
+                    <div class="message-data align-right">
+                        <span class="message-data-time">10:10 AM, Today</span> &nbsp; &nbsp;
+                        <span class="message-data-name">Olia</span> <i class="fa fa-circle me"></i>
+
+                    </div>
+                    <div class="message other-message float-right">
+                        Hi Vincent, how are you? How is the project coming along?
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <div class="message-data align-left">
+                        <span class="message-data-time">10:10 AM, Today</span> &nbsp; &nbsp;
+                        <span class="message-data-name">Me</span> <i class="fa fa-circle me" style="color: #86BB71"></i>
+
+                    </div>
+                    <div class="message my-message float-left">
+                        Hi Vincent, how are you? How is the project coming along?
+                    </div>
+                </li>
+            </ul>
+            </ul>
+        </div>
     </div>
 
 {% endblock %}

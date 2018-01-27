@@ -8,6 +8,15 @@ $(function () {
     // Helpful debugging
     socket.onopen = function () {
         console.log("Connected to chat socket");
+        // as rooms loads
+        let roomID = getRoomID();
+        if (!isNaN(roomID)) {
+            socket.send(JSON.stringify({
+                "command": "join",
+                "room": getRoomID()
+            }));
+        }
+
     };
     socket.onclose = function () {
         console.log("Disconnected from chat socket");
@@ -26,21 +35,22 @@ $(function () {
         if (data.join) {
             console.log("Joining room " + data.join);
             console.log(message.data);
-            var roomdiv = $(
-                "<div class='room' id='room-" + data.join + "'>" +
-                "<h2>" + data.title + "</h2>" +
-                "<div class='messages'></div>" +
-                "<input><button>Send</button>" +
-                "</div>"
-            );
-            $("#chats").append(roomdiv);
-            roomdiv.find("button").on("click", function () {
+            // var roomdiv = $(
+            //     "<div class='room' id='room-" + data.join + "'>" +
+            //     "<h2>" + data.title + "</h2>" +
+            //     "<div class='messages'></div>" +
+            //     "<input><button id='send-btn'>Send</button>" +
+            //     "</div>"
+            // );
+            // $("#chats").append(roomdiv);
+            let input = $("#message-input");
+            $("#send-btn").click(function () {
                 socket.send(JSON.stringify({
                     "command": "send",
                     "room": data.join,
-                    "message": roomdiv.find("input").val()
+                    "message": input.val()
                 }));
-                roomdiv.find("input").val("");
+                input.val("");
             });
             // Handle leaving
         } else if (data.leave) {
@@ -56,7 +66,7 @@ $(function () {
                     // Message
                     ok_msg = "<div class='message'>" +
                         "<span class='time'>" + new Date().toLocaleTimeString() + "</span>" +
-                        "<span class='username'>" + " " + data.username + ": " +"</span>" +
+                        "<span class='username'>" + " " + data.username + ": " + "</span>" +
                         "<span class='body'>" + data.message + "</span>" +
                         "</div>";
                     break;
@@ -96,6 +106,11 @@ $(function () {
         return $("#room-" + roomId).length > 0;
     }
 
+    function getRoomID() {
+        return window.location.pathname.slice(-1);
+    }
+
+    // not needed in the future
     // Room join/leave
     $("li.room-link").click(function () {
         roomId = $(this).attr("data-room-id");
@@ -115,4 +130,11 @@ $(function () {
             }));
         }
     });
+
+    $(document).keypress(function (e) {
+        if (e.which === 13) {
+            $("#send-btn").click();
+        }
+    });
+
 });

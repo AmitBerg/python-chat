@@ -1,0 +1,20 @@
+<ul class="navbar-nav ml-auto">
+    {% if user.is_authenticated%}
+        <li class="nav-item">
+            <span class="navbar-brand">Hello, {{ user }}</span>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+        </li>
+    {% else %}
+        <li class="nav-item">
+            <span class="navbar-brand">Hello, Guest</span>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+        </li>
+    {% endif %}
+</ul>
