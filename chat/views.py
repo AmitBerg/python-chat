@@ -1,25 +1,10 @@
 from django.views.generic import DetailView, ListView
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect, reverse
 
 from .models import Room
-
-
-@login_required
-def index(request):
-    """
-    Root page view. This is essentially a single-page app, if you ignore the
-    login and admin parts.
-    """
-    # Render that in the index template
-    rooms = Room.objects.order_by("title")
-
-    # Render that in the index template
-    return render(request, "chat/index.html", {
-        "rooms": rooms,
-    })
 
 
 def signup(request):
@@ -37,7 +22,7 @@ def signup(request):
     return render(request, 'registration/signup.html', {'form': form})
 
 
-class ChatRoomsListView(ListView):
+class ChatRoomsListView(LoginRequiredMixin, ListView):
     queryset = Room
     template_name = 'chat/index.html'
 

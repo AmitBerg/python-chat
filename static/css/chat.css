@@ -70,7 +70,7 @@ body {
 }
 
 .chat {
-    width: 490px;
+    width: 100%;
     float: left;
     /*background: #F2F5F8;*/
     border-top-right-radius: 5px;
@@ -113,7 +113,6 @@ body {
     padding: 30px 30px 20px;
     border-bottom: 2px solid white;
     /*overflow-y: scroll;*/
-    height: 575px;
 }
 
 .chat .chat-history .message-data {
@@ -168,13 +167,13 @@ body {
 }
 
 .chat .chat-message textarea {
-    width: 100%;
-    border: none;
-    padding: 10px 20px;
-    font: 14px/22px "Lato", Arial, sans-serif;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    resize: none;
+    /*!*width: 100%;*!*/
+    /*!*border: none;*!*/
+    /*!*padding: 10px 20px;*!*/
+    /*!*font: 14px/22px "Lato", Arial, sans-serif;*!*/
+    /*!*margin-bottom: 10px;*!*/
+    /*!*border-radius: 5px;*!*/
+    /*!*resize: none;*!*/
 }
 
 .chat .chat-message .fa-file-o, .chat .chat-message .fa-file-image-o {

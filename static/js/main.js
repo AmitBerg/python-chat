@@ -18,6 +18,7 @@ $(function () {
         }
 
     };
+
     socket.onclose = function () {
         console.log("Disconnected from chat socket");
     };
@@ -25,7 +26,7 @@ $(function () {
     socket.onmessage = function (message) {
         // Decode the JSON
         console.log("Got websocket message " + message.data);
-        var data = JSON.parse(message.data);
+        let data = JSON.parse(message.data);
         // Handle errors
         if (data.error) {
             alert(data.error);
@@ -35,40 +36,36 @@ $(function () {
         if (data.join) {
             console.log("Joining room " + data.join);
             console.log(message.data);
-            // var roomdiv = $(
-            //     "<div class='room' id='room-" + data.join + "'>" +
-            //     "<h2>" + data.title + "</h2>" +
-            //     "<div class='messages'></div>" +
-            //     "<input><button id='send-btn'>Send</button>" +
-            //     "</div>"
-            // );
-            // $("#chats").append(roomdiv);
             let input = $("#message-input");
             $("#send-btn").click(function () {
-                socket.send(JSON.stringify({
-                    "command": "send",
-                    "room": data.join,
-                    "message": input.val()
-                }));
-                input.val("");
-            });
+                    // only send if there is something in the input
+                    if (input.val()) {
+                        socket.send(JSON.stringify({
+                            "command": "send",
+                            "room": data.join,
+                            "message": input.val()
+                        }));
+                        input.val("");
+                    }
+                }
+            );
             // Handle leaving
         } else if (data.leave) {
             console.log("Leaving room " + data.leave);
             $("#room-" + data.leave).remove();
         } else if (data.message || data.msg_type != 0) {
-            var msgdiv = $("#room-" + data.room + " .messages");
-            var ok_msg = "";
+            let msgdiv = $(".chat-history ul");
+            let ok_msg = "";
             // msg types are defined in chat/settings.py
             // Only for demo purposes is hardcoded, in production scenarios, consider call a service.
             switch (data.msg_type) {
                 case 0:
-                    // Message
-                    ok_msg = "<div class='message'>" +
-                        "<span class='time'>" + new Date().toLocaleTimeString() + "</span>" +
-                        "<span class='username'>" + " " + data.username + ": " + "</span>" +
-                        "<span class='body'>" + data.message + "</span>" +
-                        "</div>";
+                    ok_msg = '<li class="clearfix"><div class="message-data align-right">' +
+                        '<span class="message-data-time">' + new Date().toLocaleTimeString() +
+                        '</span> &nbsp; &nbsp; <span class="message-data-name">' + data.username +
+                        '&nbsp;</span><i class="fa fa-circle me"></i>'
+                        + '</div><div class="message other-message float-right">'
+                        + htmlEntities(data.message) + '</div></li>';
                     break;
                 case 1:
                     // Warning/Advice messages
@@ -95,7 +92,8 @@ $(function () {
                     return;
             }
             msgdiv.append(ok_msg);
-            msgdiv.scrollTop(msgdiv.prop("scrollHeight"));
+            // msgdiv.scrollTop(msgdiv.prop("scrollHeight"));
+            scrollDown();
         } else {
             console.log("Cannot handle message!");
         }
@@ -106,12 +104,25 @@ $(function () {
         return $("#room-" + roomId).length > 0;
     }
 
+    // get room id from url, might need to be changed
     function getRoomID() {
         return window.location.pathname.slice(-1);
     }
 
+    // Im here to prevent XSS
+    function htmlEntities(str) {
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // Scroll down to the bottom of the page.
+    // why is it called scrollTop though?
+    function scrollDown() {
+        $(document).scrollTop($(document).height());
+    }
+
     // not needed in the future
     // Room join/leave
+    // left here for me to remember how to use leave/join
     $("li.room-link").click(function () {
         roomId = $(this).attr("data-room-id");
         if (inRoom(roomId)) {
@@ -131,6 +142,7 @@ $(function () {
         }
     });
 
+    // Bind Enter key to send button
     $(document).keypress(function (e) {
         if (e.which === 13) {
             $("#send-btn").click();

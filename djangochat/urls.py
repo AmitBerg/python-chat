@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
-from chat.views import index, signup
+from chat.views import ChatRoomsListView, signup
 
 
 urlpatterns = [
@@ -26,6 +26,6 @@ urlpatterns = [
     url(r'^signup/$', signup, name='signup'),  # The base django logout view
     url(r'^admin/', admin.site.urls),
     url(r'^', include('chat.urls')),
-    url(r'^$', index, name='homepage'),  # The start point for index view)
+    url(r'^$', ChatRoomsListView.as_view(), name='homepage'),  # The start point for index view)
 
 ]
