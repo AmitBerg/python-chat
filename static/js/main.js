@@ -5,6 +5,8 @@ $(function () {
     console.log("Connecting to " + ws_path);
     let socket = new ReconnectingWebSocket(ws_path);
 
+    let user = $("#username").html();
+
     // Helpful debugging
     socket.onopen = function () {
         console.log("Connected to chat socket");
@@ -56,15 +58,22 @@ $(function () {
         } else if (data.message || data.msg_type != 0) {
             let msgdiv = $(".chat-history ul");
             let ok_msg = "";
+            let me = user === data.username;
+            let messageClass = me ? "my-message" : "other-message";
+            let dotClass = me ? "me" : "other";
+            let alignClass = me ? "align-left" : "align-right";
+            let floatClass = me ? "float-left" : "float-right";
+            console.log(messageClass, dotClass);
             // msg types are defined in chat/settings.py
             // Only for demo purposes is hardcoded, in production scenarios, consider call a service.
             switch (data.msg_type) {
                 case 0:
-                    ok_msg = '<li class="clearfix"><div class="message-data align-right">' +
+                    ok_msg = '<li class="clearfix"><div class="message-data ' + alignClass + '">' +
                         '<span class="message-data-time">' + new Date().toLocaleTimeString() +
                         '</span> &nbsp; &nbsp; <span class="message-data-name">' + data.username +
-                        '&nbsp;</span><i class="fa fa-circle me"></i>'
-                        + '</div><div class="message other-message float-right">'
+                        '&nbsp;</span><i class="fa fa-circle ' + dotClass + '"></i>'
+                        + '</div><div class="message ' + messageClass + ' ' + floatClass +"" +
+                        '" style="word-wrap: break-word">'
                         + htmlEntities(data.message) + '</div></li>';
                     break;
                 case 1:
