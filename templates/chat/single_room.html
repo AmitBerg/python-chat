@@ -3,12 +3,6 @@
 
     <h1>{{ object.title }}</h1>
 
-{#    <div id="chats">#}
-{#        <div class='room' id='room-{{ object.id }}'>#}
-{#            <div class='messages'></div>#}
-{#        </div>#}
-{#    </div>#}
-
     <div class="chat">
         <div class="chat-history">
             <ul style="list-style: none">
@@ -16,14 +10,10 @@
         </div>
     </div>
 
-    <input id="message-input"><button id='send-btn'>Send</button>
+    <div class="md-form">
+        <input type="text" id="message-input" class="form-control">
+        <button id="send-btn" class="btn btn-outline-default waves-effect">Send</button>
+    </div>
 
-{#    <style>#}
-{#        input {#}
-{#            bottom: 0;#}
-{#            width: auto;#}
-{#            position: fixed;#}
-{#        }#}
-{#    </style>#}
 
 {% endblock content %}
