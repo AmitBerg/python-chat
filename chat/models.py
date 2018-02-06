@@ -19,7 +19,7 @@ class Room(models.Model):
     # If only "staff" users are allowed (is_staff on django's User)
     staff_only = models.BooleanField(default=False)
 
-    room_log = models.ForeignKey("Log", on_delete=models.CASCADE, blank=True, null=True)
+    room_log = models.ForeignKey("Log", on_delete=models.CASCADE, blank=True, null=True, default=None)
 
     def str(self):
         return self.title
