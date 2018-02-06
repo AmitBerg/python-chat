@@ -24,3 +24,4 @@ MESSAGE_TYPES_LIST = getattr(settings, 'MESSAGE_TYPES_LIST',
                               MSG_TYPE_MUTED,
                               MSG_TYPE_ENTER,
                               MSG_TYPE_LEAVE])
+

@@ -105,3 +105,4 @@ ENV/
 log.log
 db.sqlite3
 djangochat/local.py
+media/*

@@ -17,15 +17,25 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
-from chat.views import ChatRoomsListView, signup
-
+from chat.views import ChatRoomsListView, signup, FileView, FileListView
 
 urlpatterns = [
+    # includes
+    url(r'^easy_rest/', include('easy_rest.urls')),
+    url(r'^admin/', admin.site.urls),
+    url(r'^', include('chat.urls')),
+
+    # authentication
     url(r'^login/$', auth_views.login, name='login'),  # The base django login view
     url(r'^logout/$', auth_views.logout, name='logout'),  # The base django logout view
     url(r'^signup/$', signup, name='signup'),  # The base django logout view
-    url(r'^admin/', admin.site.urls),
-    url(r'^', include('chat.urls')),
+
+    # current index page
     url(r'^$', ChatRoomsListView.as_view(), name='homepage'),  # The start point for index view)
 
+    # files
+    url(r'^file/$', FileListView.as_view(), name='files'),
+    url(r'^file/(?P<filename>.*)$', FileView.as_view(), name='single_file'),
+
 ]
+

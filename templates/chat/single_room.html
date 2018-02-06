@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
-{% block content %}
+{% load static %}
 
+{% block content %}
     <h1>{{ object.title }}</h1>
 
     <div class="chat">
@@ -14,6 +15,11 @@
         <input type="text" id="message-input" class="form-control">
         <button id="send-btn" class="btn btn-outline-default waves-effect">Send</button>
     </div>
-
-
 {% endblock content %}
+
+{% block extra_body %}
+    <!-- Reconnecting Websockets -->
+    <script type="text/javascript" src="{% static "js/reconnecting-websocket.min.js" %}"></script>
+    <!-- My scripts -->
+    <script type="text/javascript" src="{% static "js/main.js" %}"></script>
+{% endblock extra_body %}

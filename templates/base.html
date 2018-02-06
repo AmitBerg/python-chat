@@ -1,4 +1,6 @@
 {% load static %}
+{% load easy_rest %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Django chat</title>
+    {% load_rest_scripts %}
 
     <!-- Google font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
@@ -19,6 +22,7 @@
     <link href="{% static 'mdb/css/mdb.min.css' %}" rel="stylesheet">
     <!-- My style -->
     <link href="{% static "css/main.css" %}" type="text/css" media="screen" rel="stylesheet">
+    <!-- TODO remove redundant css classes from this file -->
     <link href="{% static "css/chat.css" %}" type="text/css" media="screen" rel="stylesheet">
 
     {% block extra_head %}{% endblock %}
@@ -34,8 +38,6 @@
         {% endblock %}
     </div>
 
-    {% block extra_body %}{% endblock %}
-
     <script type="text/javascript" src="{% static 'mdb/js/jquery-3.2.1.min.js' %}"></script>
     <!-- Bootstrap tooltips -->
     <script type="text/javascript" src="{% static 'mdb/js/popper.min.js' %}"></script>
@@ -43,10 +45,9 @@
     <script type="text/javascript" src="{% static 'mdb/js/bootstrap.min.js' %}"></script>
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="{% static 'mdb/js/mdb.min.js' %}"></script>
-    <!-- Reconnecting Websockets -->
-    <script type="text/javascript" src="{% static "js/reconnecting-websocket.min.js" %}"></script>
-    <!-- My scripts -->
-    <script type="text/javascript" src="{% static "js/main.js" %}"></script>
+
+    {% block extra_body %}
+    {% endblock extra_body %}
 
 </body>
 </html>

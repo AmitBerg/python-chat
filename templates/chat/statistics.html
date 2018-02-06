@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load easy_rest %}
+
+{% block content %}
+    <h1>statistics!</h1>
+    <canvas id="myChart" width="500" height="500"></canvas>
+{% endblock content %}
+
+{% block extra_body %}
+    <!-- Chart js -->
+    <script type="text/javascript" src="{% static "js/Chart.js" %}"></script>
+    <script>
+
+        function getRandomColor() {
+            let letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        new Chart(document.getElementById("myChart"), {
+            type: "doughnut",
+            data: {
+                "labels": ["Red", "Blue", "Yellow"],
+                "datasets": [{
+                    "label": "My First Dataset",
+                    "data": [300, 50, 100],
+                    "backgroundColor": [getRandomColor(), getRandomColor(), getRandomColor()]
+                }]
+            },
+
+
+            options: {
+                responsive: false
+            }
+        });
+    </script>
+{% endblock extra_body %}

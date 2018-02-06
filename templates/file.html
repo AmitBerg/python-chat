@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load easy_rest %}
+
+{% block content %}
+    <!-- TODO important! add the live context tag where ever you want live context, the context must be like {var} (no spaces) -->
+    {% livecontext %}
+        <h1>File content</h1>
+        <p>{random}</p>
+    {% endlivecontext %}
+
+{% endblock content %}

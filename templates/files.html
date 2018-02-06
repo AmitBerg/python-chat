@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1> Files! </h1>
+    <ul>
+        {% for log in logs %}
+            <li><a href="{% url "single_file" filename=log.name %}.csv">{{ log.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock content %}
