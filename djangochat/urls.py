@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
-from chat.views import ChatRoomsListView, signup, FileView, FileListView
+from chat.views import ChatRoomsListView, signup, ConversationView, ConversationListView
 
 urlpatterns = [
     # includes
@@ -33,9 +33,9 @@ urlpatterns = [
     # current index page
     url(r'^$', ChatRoomsListView.as_view(), name='homepage'),  # The start point for index view)
 
-    # files
-    url(r'^file/$', FileListView.as_view(), name='files'),
-    url(r'^file/(?P<filename>.*)$', FileView.as_view(), name='single_file'),
+    # conversations
+    url(r'^conversations/$', ConversationListView.as_view(), name='conversations'),
+    url(r'^Conversation/(?P<pk>[0-9]+)$', ConversationView.as_view(), name='single_conversation'),
 
 ]
 

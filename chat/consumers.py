@@ -5,12 +5,14 @@ import json
 import pytz
 from datetime import datetime
 
-TIME_ZONE = pytz.timezone("Israel")
+from django.utils.html import escape
 
 from .settings import NOTIFY_USERS_ON_ENTER_OR_LEAVE_ROOMS, MSG_TYPE_ENTER, MSG_TYPE_LEAVE
-from .utils import catch_client_error, get_room_or_error, write
+from .utils import catch_client_error, get_room_or_error
 from .models import Room
 from .exceptions import ClientError
+
+TIME_ZONE = pytz.timezone("Israel")
 
 logging.basicConfig(filename='log.log', level=logging.DEBUG)
 
@@ -105,5 +107,7 @@ def chat_send(message):
     if int(message['room']) not in message.channel_session['rooms']:
         raise ClientError("ROOM_ACCESS_DENIED")
     room = get_room_or_error(message["room"], message.user)
-    write(datetime.now(TIME_ZONE).strftime('%Y-%m-%d %H:%M:%S'), message['room'], message.user, message['message'])
+    room.room_log.add_message(
+        {"time": datetime.now(TIME_ZONE).strftime('%Y-%m-%d %H:%M:%S'), "user": message.user.username,
+         "msg": escape(message['message'])})
     room.send_message(message["message"], message.user)
