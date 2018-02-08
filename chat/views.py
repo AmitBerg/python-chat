@@ -68,11 +68,7 @@ class FileView(PermissionRequiredMixin, TemplateContextFetcherView):
 
 class FileListView(PermissionRequiredMixin, TemplateView):
     template_name = 'files.html'
-
     permission_required = 'user.is_superuser'
-
-    def test_func(self):
-        return self.request.user.is_superuser
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(FileListView, self).get_context_data()

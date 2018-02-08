@@ -51,7 +51,7 @@ def read(log_file):
         with open(settings.LOGS_PATH + "/" + log_file, "r") as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=' ', quotechar='|')
             for row in csv_reader:
-                conv.append(escape(', '.join(row)) + "\n")
+                conv.append([escape(elm) for elm in row])
         return conv
 
 
