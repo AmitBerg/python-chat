@@ -3,8 +3,7 @@ from .models import Room, Log
 
 
 class AdminLog(admin.ModelAdmin):
-    fields = ['name']
-    list_display = ['name', "creation_date", "edit_date", "log_file"]
+    list_display = ['name', "creation_date", "edit_date"]
     list_display_links = ['name', ]
 
 

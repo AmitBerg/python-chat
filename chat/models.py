@@ -1,9 +1,6 @@
-from django.core.files.base import ContentFile, File
-from django.core.files.storage import FileSystemStorage
 from django.db import models
 from channels import Group
 import json
-import os
 
 from .settings import MSG_TYPE_MESSAGE
 
@@ -56,19 +53,20 @@ def join_by_dash(name):
     return "-".join(name.split())
 
 
-LOG_PATH = "media/chat/logs/"
+BASE_CONVERSATION = '{ "conversation" : [] }'
+
+example = '{"conv": [{"time": "1", "user": "me", "msg": "some message"}, ' \
+          '{"time": "2", "user": "other", "msg": "some other message"}]}'
 
 
 class Log(models.Model):
     """
     A log to save conversations
     """
-    fs = FileSystemStorage(location=LOG_PATH)
-
     name = models.CharField(max_length=256)
     creation_date = models.DateTimeField(auto_now_add=True)
     edit_date = models.DateTimeField(auto_now=True)
-    log_file = models.FileField(storage=fs, blank=True, null=True)
+    conversation = models.TextField(default=BASE_CONVERSATION, blank=True, null=True)
 
     def __str__(self):
         # TODO rework this function, maybe format the time string differently
@@ -76,13 +74,25 @@ class Log(models.Model):
             self.creation_date.strftime("%d-%m-%Y %H:%M:%S")) + " Last changed at: " + str(
             self.edit_date.strftime("%d-%m-%Y %H:%M:%S"))
 
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            if not os.path.exists(LOG_PATH):
-                os.makedirs(LOG_PATH)
-                self.log_file.save(self.name + '.csv', ContentFile('time room user message\n'))
-                return
-            elif not os.path.isfile(LOG_PATH + self.name + '.csv'):
-                self.log_file.save(self.name + '.csv', ContentFile('time room user message\n'))
-                return
-        return super(Log, self).save(*args, **kwargs)
+    def read(self):
+        return json.loads(self.conversation)
+
+    @staticmethod
+    def write(conversation):
+        return json.dumps(conversation)
+
+    def add_message(self, message):
+        # message must be a dict of time, user, and the actual message
+        if type(message) != dict:
+            return
+        conversation = self.read()
+        conversation['conversation'].append(message)
+        self.conversation = self.write(conversation)
+        self.save()
+
+    def prettify_conversation(self):
+        base_message = '<p><span style="color: blue;">{} </span>{}: {}</p>'
+        conversation = ""
+        for msg in self.read()['conversation']:
+            conversation += (base_message.format(msg['time'], msg['user'], msg['msg']))
+        return conversation, len(self.read()['conversation'])

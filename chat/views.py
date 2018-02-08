@@ -1,15 +1,11 @@
-from django.conf import settings
-from django.http import Http404
 from django.views.generic import DetailView, ListView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect, reverse
 from easy_rest.views import RestApiView, TemplateContextFetcherView
-import os
 
 from .models import Room, Log
-from .utils import read
 
 
 def signup(request):
@@ -47,30 +43,23 @@ class StatisticsView(PermissionRequiredMixin, TemplateView):
     permission_required = 'user.is_superuser'
 
 
-class FileView(PermissionRequiredMixin, TemplateContextFetcherView):
-    template_name = "file.html"
+class ConversationView(PermissionRequiredMixin, TemplateContextFetcherView):
+    template_name = "conversation.html"
     permission_required = 'user.is_superuser'
 
     # TODO loop over the conversation here, make here the Html and pass it by context
     def get_context_data(self, **kwargs):
-        return {'random': read(self.request.path.split("/")[-1])}
-
-    def get(self, request, *args, **kwargs):
-        response = super(FileView, self).get(request, *args, **kwargs)
-        file = self.request.path.split("/")[-1]
-        if not file:
-            raise Http404('"%s" does not exist' % file)
-        path = os.path.join(settings.MEDIA_ROOT + "/chat/logs/", file)
-        if not os.path.exists(path):
-            raise Http404('"%s" does not exist' % path)
-        return response
+        pk = self.request.path.split("/")[-1]
+        log = Log.objects.get(pk=pk)
+        conversation, num = log.prettify_conversation()
+        return {'conversation': conversation, 'num': num}
 
 
-class FileListView(PermissionRequiredMixin, TemplateView):
-    template_name = 'files.html'
+class ConversationListView(PermissionRequiredMixin, TemplateView):
+    template_name = 'conversations.html'
     permission_required = 'user.is_superuser'
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(FileListView, self).get_context_data()
+        context = super(ConversationListView, self).get_context_data()
         context['logs'] = Log.objects.order_by('name')
         return context

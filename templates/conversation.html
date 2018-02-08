@@ -3,9 +3,11 @@
 
 {% block content %}
     <!-- TODO important! add the live context tag where ever you want live context, the context must be like {var} (no spaces) -->
+    <h1>Conversation</h1>
     {% livecontext %}
-        <h1>File content</h1>
-        <p>{random}</p>
+        <h4>Messages: {num}</h4>
+        {% autoescape off %}
+            <div id="conversation" style="display: block">{conversation}</div>
+        {% endautoescape %}
     {% endlivecontext %}
-
 {% endblock content %}
