@@ -35,7 +35,7 @@ urlpatterns = [
 
     # conversations
     url(r'^conversations/$', ConversationListView.as_view(), name='conversations'),
-    url(r'^Conversation/(?P<pk>[0-9]+)$', ConversationView.as_view(), name='single_conversation'),
+    url(r'^conversation/(?P<pk>[0-9]+)$', ConversationView.as_view(), name='single_conversation'),
 
 ]
 
