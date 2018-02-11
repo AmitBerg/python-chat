@@ -1,8 +1,24 @@
 from django.db import models
+from django.contrib.auth.models import User
 from channels import Group
 import json
 
 from .settings import MSG_TYPE_MESSAGE
+
+
+class RoomManger(models.Manager):
+
+    def exclude_private(self):
+        rooms = PrivateRoom.objects.all()
+        pks = [room.pk for room in rooms]
+        return self.exclude(id__in=pks)
+
+
+class PrivateRoomManger(models.Manager):
+
+    @staticmethod
+    def my_private_rooms(user):
+        return PrivateRoom.objects.filter(users=user)
 
 
 class Room(models.Model):
@@ -11,14 +27,16 @@ class Room(models.Model):
     """
 
     # Room title
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, unique=True)
 
     # If only "staff" users are allowed (is_staff on django's User)
     staff_only = models.BooleanField(default=False)
 
     room_log = models.ForeignKey("Log", on_delete=models.CASCADE, blank=True, null=True, default=None)
 
-    def str(self):
+    objects = RoomManger()
+
+    def __str__(self):
         return self.title
 
     @property
@@ -46,6 +64,15 @@ class Room(models.Model):
         return super(Room, self).save(*args, **kwargs)
 
 
+class PrivateRoom(Room):
+    """
+    private room
+    """
+    users = models.ManyToManyField(User)
+
+    objects = PrivateRoomManger()
+
+
 def join_by_dash(name):
     """
     if the name 'Room 1' is given, the output would be 'Room-1'
@@ -54,16 +81,16 @@ def join_by_dash(name):
 
 
 BASE_CONVERSATION = '{ "conversation" : [] }'
-
-example = '{"conv": [{"time": "1", "user": "me", "msg": "some message"}, ' \
-          '{"time": "2", "user": "other", "msg": "some other message"}]}'
+# example string:
+# '{"conv": [{"time": "1", "user": "me", "msg": "some message"},'
+#           '{"time": "2", "user": "other", "msg": "some other message"}]}'
 
 
 class Log(models.Model):
     """
     A log to save conversations
     """
-    name = models.CharField(max_length=256)
+    name = models.CharField(max_length=256, unique=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     edit_date = models.DateTimeField(auto_now=True)
     conversation = models.TextField(default=BASE_CONVERSATION, blank=True, null=True)
@@ -95,4 +122,7 @@ class Log(models.Model):
         conversation = ""
         for msg in self.read()['conversation']:
             conversation += (base_message.format(msg['time'], msg['user'], msg['msg']))
-        return conversation, len(self.read()['conversation'])
+        return conversation
+
+    def number_of_messages(self):
+        return len(self.read()['conversation'])

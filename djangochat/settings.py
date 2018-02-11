@@ -156,7 +156,7 @@ DATABASES['default'].update(db_from_env)
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-LOGS_PATH = os.path.join(MEDIA_ROOT, "chat", "logs")
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 try:
     from .local import *

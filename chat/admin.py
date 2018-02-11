@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Room, Log
+from .models import Room, PrivateRoom, Log
 
 
 class AdminLog(admin.ModelAdmin):
@@ -14,3 +14,4 @@ admin.site.register(
 )
 
 admin.site.register(Log, admin_class=AdminLog)
+admin.site.register(PrivateRoom)

@@ -1,18 +1,37 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-    <h2>Rooms:</h2>
-    <ul class="rooms">
-        {% for room in rooms %}
-            <li><a class="room-link" data-room-id="{{ room.id }}" href="{% url "chat:single_room" pk=room.pk %}">
-                {{ room.title }}
-            </a></li>
-        {% empty %}
-            <p class="empty">No chat rooms defined. Maybe make some in the <a href="{% url 'admin:index' %}">admin</a>?
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <h2>Public Rooms:</h2>
+            <ul class="rooms">
+                {% for room in rooms %}
+                    <li><a class="room-link" data-room-id="{{ room.id }}"
+                           href="{% url "chat:single_room" pk=room.pk %}">
+                        {{ room.title }}
+                    </a></li>
+                {% empty %}
+                    <p class="empty">No chat rooms defined. Maybe make some in the
+                        <a href="{% url 'admin:index' %}">admin</a>?
+                    </p>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <h2>Private Rooms:</h2>
+            <ul>
+                {% for room in private_rooms %}
+                    <li><a href="{% url "chat:single_private_room" pk=room.pk %}">
+                        {{ room.title }}
+                    </a></li>
+                {% endfor %}
+            </ul>
+            <p>Want to make you own rooms?
+                <a href="{% url 'chat:create_private_room' %}">make some rooms</a>
             </p>
-        {% endfor %}
-    </ul>
+
+        </div>
+    </div>
 
     <!-- single message -->
     <div class="chat">
@@ -43,4 +62,4 @@
         </div>
     </div>
 
-{% endblock %}
+{% endblock content %}
