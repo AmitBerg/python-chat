@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django_currentuser.db.models import CurrentUserField
 from channels import Group
 import json
 
@@ -68,7 +69,10 @@ class PrivateRoom(Room):
     """
     private room
     """
-    users = models.ManyToManyField(User)
+    # this is an awesome thing!
+    owner = CurrentUserField()
+
+    users = models.ManyToManyField(User, related_name='users')
 
     objects = PrivateRoomManger()
 
@@ -81,6 +85,8 @@ def join_by_dash(name):
 
 
 BASE_CONVERSATION = '{ "conversation" : [] }'
+
+
 # example string:
 # '{"conv": [{"time": "1", "user": "me", "msg": "some message"},'
 #           '{"time": "2", "user": "other", "msg": "some other message"}]}'
