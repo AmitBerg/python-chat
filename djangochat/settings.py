@@ -54,7 +54,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django_currentuser.middleware.ThreadLocalUserMiddleware',
-
 ]
 
 ROOT_URLCONF = 'djangochat.urls'

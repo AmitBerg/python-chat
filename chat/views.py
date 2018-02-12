@@ -90,6 +90,13 @@ class PrivateRoomView(UserPassesTestMixin, generic.DetailView):
         messages.error(request=self.request, message=message)
         return redirect(reverse("homepage"))
 
+    def get_context_data(self, **kwargs):
+        ctx = super(PrivateRoomView, self).get_context_data(**kwargs)
+        # the user is the owner
+        if self.request.user.id == self.get_object().owner_id:
+            ctx['owner_button'] = " "
+        return ctx
+
 
 class CreatePrivateRoom(generic.CreateView):
     fields = ['title', 'users']

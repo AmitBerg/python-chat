@@ -4,6 +4,8 @@ from django_currentuser.db.models import CurrentUserField
 from channels import Group
 import json
 
+from django_currentuser.middleware import get_current_authenticated_user
+
 from .settings import MSG_TYPE_MESSAGE
 
 
@@ -70,7 +72,7 @@ class PrivateRoom(Room):
     private room
     """
     # this is an awesome thing!
-    owner = CurrentUserField()
+    owner = models.ForeignKey(User, default=get_current_authenticated_user, on_delete=models.CASCADE)
 
     users = models.ManyToManyField(User, related_name='users')
 

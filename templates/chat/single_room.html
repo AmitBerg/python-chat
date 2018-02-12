@@ -2,6 +2,9 @@
 {% load static %}
 
 {% block content %}
+    {% if owner_button %}
+        <a href="#" class="btn btn-elegant">Add users!</a>
+    {% endif %}
     <h1>{{ object.title }}</h1>
 
     <div class="chat">
