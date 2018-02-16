@@ -73,7 +73,6 @@ class ConversationListView(PermissionRequiredMixin, generic.TemplateView):
 class PrivateRoomView(UserPassesTestMixin, generic.DetailView):
     model = PrivateRoom
     template_name = 'chat/private_room.html'
-    raise_exception = False
 
     def test_func(self):
         cur_room = (PrivateRoom.objects.get(pk=self.get_object().pk))
