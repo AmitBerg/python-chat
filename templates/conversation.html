@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load easy_rest %}
+
+{% block esay_rest_scripts %}
+    <script type="text/javascript" src="{% static 'js/easy_rest/PostHandler.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/easy_rest/Request.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/easy_rest/restFetch.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/easy_rest/Submit.js' %}"></script>
+{% endblock esay_rest_scripts %}
 
 {% block content %}
     <!-- TODO important! add the live context tag where ever you want live context, the context must be like {var} (no spaces) -->
