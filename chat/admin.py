@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Room, Log
+from .models import Room, PrivateRoom, Log
 
 
 class AdminLog(admin.ModelAdmin):
@@ -7,10 +7,16 @@ class AdminLog(admin.ModelAdmin):
     list_display_links = ['name', ]
 
 
-admin.site.register(
-    Room,
-    list_display=["id", "title", "room_log", "staff_only"],
-    list_display_links=["id", "title", "room_log"],
-)
+class AdminRoom(admin.ModelAdmin):
+    fields = ("title", "room_log", "staff_only")
+    list_display = ["title", "id", "room_log", "staff_only"]
 
+
+class AdminPrivateRoom(admin.ModelAdmin):
+    fields = ("title", "owner", "users", "room_log", "staff_only")
+    list_display = ["title", "id", "room_log", "staff_only"]
+
+
+admin.site.register(Room, admin_class=AdminRoom)
 admin.site.register(Log, admin_class=AdminLog)
+admin.site.register(PrivateRoom, admin_class=AdminPrivateRoom)

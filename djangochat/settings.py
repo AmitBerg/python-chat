@@ -53,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django_currentuser.middleware.ThreadLocalUserMiddleware',
 ]
 
 ROOT_URLCONF = 'djangochat.urls'
@@ -156,7 +157,7 @@ DATABASES['default'].update(db_from_env)
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-LOGS_PATH = os.path.join(MEDIA_ROOT, "chat", "logs")
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 try:
     from .local import *

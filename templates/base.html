@@ -20,9 +20,16 @@
     <link href="{% static 'mdb/css/bootstrap.min.css' %}" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="{% static 'mdb/css/mdb.min.css' %}" rel="stylesheet">
+    <!--Alertify.js -->
+    <link rel="stylesheet" href="{% static 'css/alertify/alertify.min.css' %}"/>
+    <!-- Default theme -->
+    <link rel="stylesheet" href="{% static 'css/alertify/default.min.css' %}"/>
+    <!-- Semantic UI theme -->
+    <link rel="stylesheet" href="{% static 'css/alertify/semantic.min.css' %}"/>
+    <!-- Multiple select -->
+    <link href="{% static "css/ms/multiple-select.css" %}" type="text/css" media="screen" rel="stylesheet">
     <!-- My style -->
     <link href="{% static "css/main.css" %}" type="text/css" media="screen" rel="stylesheet">
-    <!-- TODO remove redundant css classes from this file -->
     <link href="{% static "css/chat.css" %}" type="text/css" media="screen" rel="stylesheet">
 
     {% block extra_head %}{% endblock %}
@@ -33,11 +40,24 @@
 
     {% include 'navbar.html' %}
 
+    <!--Alertify.js -->
+    <script type="text/javascript" src="{% static 'js/alertify/alertify.min.js' %}"></script>
+
     <div class="container" style="margin: 1rem">
+        {% if messages %}
+            {% for message in messages %}
+                <script>
+                    alertify.set('notifier', 'position', 'top-center');
+                    alertify.error("{{ message }}");
+                    sessionStorage.clear();
+                </script>
+            {% endfor %}
+        {% endif %}
         {% block content %}
         {% endblock %}
     </div>
 
+    <!--Jquery -->
     <script type="text/javascript" src="{% static 'mdb/js/jquery-3.2.1.min.js' %}"></script>
     <!-- Bootstrap tooltips -->
     <script type="text/javascript" src="{% static 'mdb/js/popper.min.js' %}"></script>
@@ -45,6 +65,8 @@
     <script type="text/javascript" src="{% static 'mdb/js/bootstrap.min.js' %}"></script>
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="{% static 'mdb/js/mdb.min.js' %}"></script>
+    <!-- Multiple select -->
+    <script type="text/javascript" src="{% static 'js/ms/multiple-select.js' %}"></script>
 
     {% block extra_body %}
     {% endblock extra_body %}
