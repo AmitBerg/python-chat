@@ -72,7 +72,7 @@ class ConversationListView(PermissionRequiredMixin, generic.TemplateView):
 
 class PrivateRoomView(UserPassesTestMixin, generic.DetailView):
     model = PrivateRoom
-    template_name = 'chat/single_room.html'
+    template_name = 'chat/private_room.html'
     raise_exception = False
 
     def test_func(self):
@@ -99,7 +99,19 @@ class PrivateRoomView(UserPassesTestMixin, generic.DetailView):
 
 
 class CreatePrivateRoom(generic.CreateView):
-    fields = ['title', 'users']
     model = PrivateRoom
+    fields = ['title', 'users']
     template_name = 'chat/private_room_create.html'
     success_url = "/"
+
+
+class UpdatePrivateRoom(UserPassesTestMixin, generic.UpdateView):
+    model = PrivateRoom
+    fields = ['users']
+    template_name = 'chat/private_room_update.html'
+
+    def test_func(self):
+        return self.request.user.id == self.get_object().owner_id
+
+    def get_success_url(self):
+        return reverse("chat:single_private_room", kwargs={"pk": self.get_object().pk})

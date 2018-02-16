@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Room create</h1>
+    <h1>Room update {{ object.title }}</h1>
     <form action="" method="post">
         {% csrf_token %}
         {% for field in form %}
@@ -16,10 +16,11 @@
                 {% endfor %}
             </p>
         {% endfor %}
-        <button type="submit">Create Room</button>
+        <button type="submit">Update Room</button>
     </form>
 
     <script>
+
         $(function () {
             $('select').multipleSelect({
                 placeholder: "select users",

@@ -2,9 +2,10 @@
 {% load static %}
 
 {% block content %}
-    {% if owner_button %}
-        <a href="#" class="btn btn-elegant">Add users!</a>
-    {% endif %}
+
+    {% block private_room %}
+    {% endblock private_room %}
+
     <h1>{{ object.title }}</h1>
 
     <div class="chat">
@@ -14,10 +15,9 @@
         </div>
     </div>
 
-    <div class="md-form">
-        <input type="text" id="message-input" class="form-control">
-        <button id="send-btn" class="btn btn-outline-default waves-effect">Send</button>
-    </div>
+    <input type="text" id="message-input" class="form-control">
+    <button id="send-btn" class="btn btn-outline-default waves-effect">Send</button>
+
 {% endblock content %}
 
 {% block extra_body %}
