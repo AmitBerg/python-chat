@@ -84,7 +84,11 @@ class ConversationListView(PermissionRequiredMixin, generic.TemplateView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ConversationListView, self).get_context_data()
-        context['logs'] = Log.objects.order_by('name')
+        logs = Log.objects.order_by('name')
+        # prettify the names
+        for log in logs:
+            log.name = log.name.replace("-", " ")
+        context['logs'] = logs
         return context
 
 
