@@ -15,12 +15,14 @@ class RoomManger(models.Manager):
         pks = [room.pk for room in rooms]
         return self.exclude(id__in=pks)
 
+    def get_rooms_with_data(self):
+        return self.exclude(room_log__conversation=BASE_CONVERSATION)
+
 
 class PrivateRoomManger(models.Manager):
 
-    @staticmethod
-    def my_private_rooms(user):
-        return PrivateRoom.objects.filter(users=user)
+    def my_private_rooms(self, user):
+        return self.filter(users=user)
 
 
 class Room(models.Model):
@@ -133,3 +135,18 @@ class Log(models.Model):
 
     def number_of_messages(self):
         return len(self.read()['conversation'])
+
+    def parse_data(self):
+        time_stamps = []
+        messages = []
+        users = []
+
+        data = self.read()
+
+        for msg in data['conversation']:
+            time_stamps.append(msg['time'])
+            messages.append(msg['msg'])
+            if msg['user'] not in users:
+                users.append(msg['user'])
+
+        return time_stamps, messages, users

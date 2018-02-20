@@ -5,11 +5,12 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.shortcuts import render, redirect, reverse
-from easy_rest.views import TemplateContextFetcherView
+from easy_rest.views import TemplateContextFetcherView, RestApiView
 
 import random
 
-from .models import Room, PrivateRoom, Log
+from .models import Room, PrivateRoom, Log, join_by_dash
+from .statistics import msg_count_by_user, word_count
 
 
 def signup(request):
@@ -46,6 +47,23 @@ class ChatRoomDetailView(generic.DetailView):
 class StatisticsView(PermissionRequiredMixin, generic.TemplateView):
     template_name = "chat/statistics.html"
     permission_required = 'user.is_superuser'
+
+    def get_context_data(self, **kwargs):
+        context = super(StatisticsView, self).get_context_data(**kwargs)
+        context["rooms"] = Room.objects.get_rooms_with_data()
+        return context
+
+
+class StatisticsApiView(PermissionRequiredMixin, RestApiView):
+    permission_required = 'user.is_superuser'
+    function_field_name = 'action'
+    api_allowed_methods = ['get_log_data']
+
+    def get_log_data(self, data):
+        rooms = Room.objects.filter(pk__in=eval(data["room_pks"]))
+        log_names = [join_by_dash(room.title) for room in rooms]
+        logs = Log.objects.filter(name__in=log_names)
+        return {"words": word_count(logs), "count": msg_count_by_user(logs)}
 
 
 class ConversationView(PermissionRequiredMixin, TemplateContextFetcherView):

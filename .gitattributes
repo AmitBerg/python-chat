@@ -7,3 +7,4 @@ static/js/jquery.min.js linguist-vendored
 static/js/chartjs/Chart.js linguist-vendored
 static/js/websockets/reconnecting-websockets.min.js linguist-vendored
 static/js/easy_rest/* linguist-vendored
+static/js/randomColor.js linguist-vendored
