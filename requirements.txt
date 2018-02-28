@@ -1,6 +1,6 @@
 asgi-redis
-channels
-daphne
+channels==1.1.8
+daphne==1.4.2
 Django
 gunicorn==18.0
 whitenoise
@@ -9,3 +9,5 @@ psycopg2
 djangorestframework
 django-easy-rest
 django-currentuser
+textblob
+django-online-users

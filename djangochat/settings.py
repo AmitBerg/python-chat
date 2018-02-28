@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'channels',
     'chat',
     'rest_framework',
-    "easy_rest",
+    'easy_rest',
+    'online_users'
 ]
 
 MIDDLEWARE = [
@@ -54,6 +55,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django_currentuser.middleware.ThreadLocalUserMiddleware',
+    'online_users.middleware.OnlineNowMiddleware',
 ]
 
 ROOT_URLCONF = 'djangochat.urls'

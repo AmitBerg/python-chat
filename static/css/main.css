@@ -1,8 +1,18 @@
+@font-face {
+    font-family: 'Panther';
+    src: url('/static/Panther.ttf');
+}
+
 html, body {
     background-image: url("/static/img/hypnotize.png");
     font-family: 'Open Sans', sans-serif;
 }
 
-.time{
+.panther {
+    font-family: "Panther", sans-serif;
+    padding-top: 1%;
+}
+
+.time {
     color: midnightblue;
 }

@@ -1,6 +1,5 @@
 from channels import Channel
 from channels.auth import channel_session_user_from_http, channel_session_user
-import logging
 import json
 import pytz
 from datetime import datetime
@@ -13,8 +12,6 @@ from .models import Room
 from .exceptions import ClientError
 
 TIME_ZONE = pytz.timezone("Israel")
-
-logging.basicConfig(filename='log.log', level=logging.DEBUG)
 
 
 # This decorator copies the user from the HTTP session (only available in
