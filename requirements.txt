@@ -11,3 +11,4 @@ django-easy-rest
 django-currentuser
 textblob
 django-online-users
+nltk
