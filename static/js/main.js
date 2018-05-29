@@ -56,13 +56,27 @@ $(function () {
                 console.log("Leaving room " + data.leave);
                 $("#room-" + data.leave).remove();
             } else if (data.message || data.msg_type != 0) {
+
                 let msgdiv = $(".chat-history ul");
                 let ok_msg = "";
                 let me = user === data.username;
-                let messageClass = me ? "my-message" : "other-message";
-                let dotClass = me ? "me" : "other";
-                let alignClass = me ? "align-left" : "align-right";
-                let floatClass = me ? "float-left" : "float-right";
+                let messageClass;
+                let dotClass;
+                let alignClass;
+                let floatClass;
+
+                if (data.username === "Brobot") {
+                    messageClass = "bot-message";
+                    dotClass = "bot";
+                    alignClass = "align-right";
+                    floatClass = "float-right";
+                }
+                else {
+                    messageClass = me ? "my-message" : "other-message";
+                    dotClass = me ? "me" : "other";
+                    alignClass = me ? "align-left" : "align-right";
+                    floatClass = me ? "float-left" : "float-right";
+                }
                 // msg types are defined in chat/settings.py
                 // Only for demo purposes is hardcoded, in production scenarios, consider call a service.
 
@@ -70,8 +84,7 @@ $(function () {
                 let words = data.message.split(" ");
                 let newWords = [];
                 for (let word of words) {
-                    if (word.startsWith("http://") || word.startsWith("https://"))
-                    {
+                    if (word.startsWith("http://") || word.startsWith("https://")) {
                         word = '<a target="_blank" style="position: relative; z-index: 10;" href="'
                             + htmlEntities(word) + '">' + htmlEntities(word) + '</a>';
                         newWords.push(word)
@@ -90,12 +103,12 @@ $(function () {
 
                 switch (data.msg_type) {
                     case 0:
-                        ok_msg =  '<li class="clearfix"><div class="message-data ' + alignClass + '">' +
-                        '<span class="message-data-time">' + new Date().toLocaleTimeString() +
-                        '</span> &nbsp; &nbsp; <span class="message-data-name">' + data.username +
-                        '&nbsp;</span><i class="fa fa-circle ' + dotClass + '"></i>'
-                        + '</div><div class="message ' + messageClass + ' ' + floatClass +"" +
-                        '" style="word-wrap: break-word">' + newMessage + '</div></li>';
+                        ok_msg = '<li class="clearfix"><div class="message-data ' + alignClass + '">' +
+                            '<span class="message-data-time">' + new Date().toLocaleTimeString() +
+                            '</span> &nbsp; &nbsp; <span class="message-data-name">' + data.username +
+                            '&nbsp;</span><i class="fa fa-circle ' + dotClass + '"></i>'
+                            + '</div><div class="message ' + messageClass + ' ' + floatClass + "" +
+                            '" style="word-wrap: break-word">' + newMessage + '</div></li>';
                         break;
                     case 1:
                         // Warning/Advice messages
@@ -121,12 +134,38 @@ $(function () {
                         console.log("Unsupported message type!");
                         return;
                 }
-                msgdiv.append(ok_msg);
+                if (data.username === "Brobot") {
+                    if (!$(".loading").length) {
+                        msgdiv.append('<div class="loading">' +
+                            '<div class="loading__dots">' +
+                            '<div class="loading__dots__dot"></div>' +
+                            '<div class="loading__dots__dot"></div>' +
+                            '<div class="loading__dots__dot"></div>' +
+                            '</div><div class="loading__msg">Hold tight, Brobot is typing</div></div>');
+                    }
+                    setTimeout(function () {
+                        msgdiv.append(ok_msg);
+                        $(".loading").remove()
+                    }, 3000);
+                }
+                else {
+                    msgdiv.append(ok_msg);
+                }
                 // msgdiv.scrollTop(msgdiv.prop("scrollHeight"));
                 scrollDown();
             } else {
                 console.log("Cannot handle message!");
             }
+
+            $(window).unload(function () {
+                console.log("mmeeeeeeeeeee");
+                socket.send(JSON.stringify({
+                    "command": "leave",
+                    "room": getRoomID()
+                }));
+            })
+
+
         };
 
         // Says if we joined a room or not by if there's a div for it
@@ -150,27 +189,39 @@ $(function () {
             $(document).scrollTop($(document).height());
         }
 
+        function leaveRoom() {
+            socket.send(JSON.stringify({
+                    "command": "leave",  // determines which handler will be used (see chat/routing.py)
+                    "room": getRoomID()
+                }));
+        }
+
+        window.onbeforeunload = function () {
+            leaveRoom()
+        };
+
         // not needed in the future
         // Room join/leave
         // left here for me to remember how to use leave/join
-        $("li.room-link").click(function () {
-            roomId = $(this).attr("data-room-id");
-            if (inRoom(roomId)) {
-                // Leave room
-                $(this).removeClass("joined");
-                socket.send(JSON.stringify({
-                    "command": "leave",  // determines which handler will be used (see chat/routing.py)
-                    "room": roomId
-                }));
-            } else {
-                // Join room
-                $(this).addClass("joined");
-                socket.send(JSON.stringify({
-                    "command": "join",
-                    "room": roomId
-                }));
-            }
-        });
+
+        // $("li.room-link").click(function () {
+        //     roomId = $(this).attr("data-room-id");
+        //     if (inRoom(roomId)) {
+        //         // Leave room
+        //         $(this).removeClass("joined");
+        //         socket.send(JSON.stringify({
+        //             "command": "leave",  // determines which handler will be used (see chat/routing.py)
+        //             "room": roomId
+        //         }));
+        //     } else {
+        //         // Join room
+        //         $(this).addClass("joined");
+        //         socket.send(JSON.stringify({
+        //             "command": "join",
+        //             "room": roomId
+        //         }));
+        //     }
+        // });
 
         // Bind Enter key to send button
         $(document).keypress(function (e) {

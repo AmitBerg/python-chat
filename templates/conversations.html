@@ -4,7 +4,7 @@
     <h1> Conversations! </h1>
     <ul>
         {% for log in logs %}
-            <li><a href="{% url "single_conversation" pk=log.pk %}">{{ log.name }}</a></li>
+            <li><a href="{% url "chat:single_conversation" pk=log.pk %}">{{ log.name }}</a></li>
         {% endfor %}
     </ul>
 {% endblock content %}

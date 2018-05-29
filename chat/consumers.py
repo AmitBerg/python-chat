@@ -1,11 +1,14 @@
-from channels import Channel
-from channels.auth import channel_session_user_from_http, channel_session_user
 import json
 import pytz
 from datetime import datetime
 
-from django.utils.html import escape
+from channels import Channel
+from channels.auth import channel_session_user_from_http, channel_session_user
 
+from django.utils.html import escape
+from django.contrib.auth.models import User
+
+from bot.bot import broback
 from .settings import NOTIFY_USERS_ON_ENTER_OR_LEAVE_ROOMS, MSG_TYPE_ENTER, MSG_TYPE_LEAVE
 from .utils import catch_client_error, get_room_or_error
 from .models import Room
@@ -62,6 +65,8 @@ def chat_join(message):
     # object that works just like request.user would. Security!
     room = get_room_or_error(message["room"], message.user)
 
+    room.users.add(message.user)
+
     # Send a "enter message" to the room if available
     if NOTIFY_USERS_ON_ENTER_OR_LEAVE_ROOMS:
         room.send_message("Has joined the room", message.user, MSG_TYPE_ENTER)
@@ -86,6 +91,8 @@ def chat_join(message):
 def chat_leave(message):
     room = get_room_or_error(message["room"], message.user)
 
+    room.users.remove(message.user)
+
     if NOTIFY_USERS_ON_ENTER_OR_LEAVE_ROOMS:
         room.send_message("Has left the room", message.user, MSG_TYPE_LEAVE)
 
@@ -103,8 +110,27 @@ def chat_leave(message):
 def chat_send(message):
     if int(message['room']) not in message.channel_session['rooms']:
         raise ClientError("ROOM_ACCESS_DENIED")
+    # get the room
     room = get_room_or_error(message["room"], message.user)
+    # log the message
     room.room_log.add_message(
         {"time": datetime.now(TIME_ZONE).strftime('%Y-%m-%d %H:%M:%S'), "user": message.user.username,
          "msg": escape(message['message'])})
     room.send_message(message["message"], message.user)
+    # send bot reply
+    if room.has_bot:
+        if room.users.count() <= 2:
+            response = broback(message['message'])
+        else:
+            response = broback(message['message'], True)
+
+        if response:
+
+            bot = User.objects.get_or_create(first_name="Bro", last_name="Bot", username="Brobot", password="brobot",
+                                             email="bro@bot.com")
+            # get_or create returns a tuple, the first val is the user
+            # second is a boolean saying if its a "get" or "create"
+            room.room_log.add_message(
+                {"time": datetime.now(TIME_ZONE).strftime('%Y-%m-%d %H:%M:%S'), "user": bot[0].username,
+                 "msg": response})
+            room.send_message(response, bot[0])

@@ -36,7 +36,11 @@ class Room(models.Model):
     # If only "staff" users are allowed (is_staff on django's User)
     staff_only = models.BooleanField(default=False)
 
+    users = models.ManyToManyField(User, related_name='users', blank=True)
+
     room_log = models.ForeignKey("Log", on_delete=models.CASCADE, blank=True, null=True, default=None)
+
+    has_bot = models.BooleanField(default=False)
 
     objects = RoomManger()
 
@@ -67,6 +71,11 @@ class Room(models.Model):
             self.room_log = Log.objects.create(name=join_by_dash(self.title))
         return super(Room, self).save(*args, **kwargs)
 
+    def delete(self, using=None, keep_parents=False):
+        if self.pk:
+            self.room_log.delete()
+        return super(Room, self).delete()
+
 
 class PrivateRoom(Room):
     """
@@ -75,9 +84,12 @@ class PrivateRoom(Room):
     # this is an awesome thing!
     owner = models.ForeignKey(User, default=get_current_authenticated_user, on_delete=models.CASCADE)
 
-    users = models.ManyToManyField(User, related_name='users')
-
     objects = PrivateRoomManger()
+
+    def delete(self, using=None, keep_parents=False):
+        if self.pk:
+            self.room_log.delete()
+        return super(Room, self).delete()
 
 
 def join_by_dash(name):

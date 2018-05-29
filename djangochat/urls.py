@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^easy_rest/', include('easy_rest.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^', include('chat.urls')),
+    url(r'^', include('bot.urls')),
 
     # authentication
     url(r'^login/$', auth_views.login, name='login'),  # The base django login view
@@ -33,9 +34,6 @@ urlpatterns = [
     # current index page
     url(r'^$', ChatRoomsListView.as_view(), name='homepage'),  # The start point for index view)
 
-    # conversations
-    url(r'^conversations/$', ConversationListView.as_view(), name='conversations'),
-    url(r'^conversation/(?P<pk>[0-9]+)$', ConversationView.as_view(), name='single_conversation'),
 
 ]
 

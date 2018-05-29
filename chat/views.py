@@ -11,6 +11,7 @@ import random
 
 from .models import Room, PrivateRoom, Log, join_by_dash
 from .statistics import msg_count_by_user, word_count
+from .admin import PrivateRoomAdminForm
 
 
 def signup(request):
@@ -121,8 +122,8 @@ class PrivateRoomView(UserPassesTestMixin, generic.DetailView):
 
 class CreatePrivateRoom(generic.CreateView):
     model = PrivateRoom
-    fields = ['title', 'users']
     template_name = 'chat/private_room_create.html'
+    form_class = PrivateRoomAdminForm
     success_url = "/"
 
 

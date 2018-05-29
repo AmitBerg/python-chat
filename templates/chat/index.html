@@ -5,39 +5,30 @@
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6">
             <h2 class="panther">Public Rooms:</h2>
-            <ul class="rooms" style="list-style:none;">
                 {% for room in rooms %}
-                    <li>
-                        <div class="wrapper">
-                            <span class="square individual">
-                                <a class="before after"
-                                   href="{% url "chat:single_room" pk=room.pk %}">{{ room.title }}
-                    </a></span></div>
-                    </li>
+                    <div class="wrapper">
+                        <span class="square individual">
+                            <a class="before after"
+                               href="{% url "chat:single_room" pk=room.pk %}">{{ room.title }}
+                            </a></span></div>
                 {% empty %}
                     <p class="empty">No chat rooms defined. Maybe make some in the
                         <a href="{% url 'admin:index' %}">admin</a>?
                     </p>
                 {% endfor %}
-            </ul>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6">
             <h2 class="panther">Private Rooms:</h2>
-            <ul style="list-style:none;">
                 {% for room in private_rooms %}
-                    <li>
                         <div class="wrapper">
                             <span class="square individual">
                                 <a class="before after"
                                    href="{% url "chat:single_private_room" pk=room.pk %}">{{ room.title }}
                         </a></span></div>
-                    </li>
                 {% endfor %}
-            </ul>
             <p>Want to make you own rooms?
                 <a href="{% url 'chat:create_private_room' %}">make some rooms</a>
             </p>
-
         </div>
     </div>
 

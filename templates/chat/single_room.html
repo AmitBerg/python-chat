@@ -20,6 +20,11 @@
 
 {% endblock content %}
 
+{% block extra_head %}
+    <!-- Loading animation -->
+    <link href="{% static "css/loading.css" %}" type="text/css" media="screen" rel="stylesheet">
+{% endblock extra_head %}
+
 {% block extra_body %}
     <!-- Reconnecting Websockets -->
     <script type="text/javascript" src="{% static "js/websockets/reconnecting-websocket.min.js" %}"></script>

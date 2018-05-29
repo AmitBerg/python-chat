@@ -1,0 +1,236 @@
+[
+  {
+    "model": "bot.response",
+    "pk": 1,
+    "fields": {
+      "type": "greeting_keyword",
+      "text": "hello",
+      "date": "2018-05-15T05:29:21.647Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 2,
+    "fields": {
+      "type": "greeting_keyword",
+      "text": "hi",
+      "date": "2018-05-15T05:29:37.840Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 3,
+    "fields": {
+      "type": "greeting_keyword",
+      "text": "greetings",
+      "date": "2018-05-15T05:29:48.789Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 4,
+    "fields": {
+      "type": "greeting_keyword",
+      "text": "sup",
+      "date": "2018-05-15T05:30:00.299Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 5,
+    "fields": {
+      "type": "greeting_keyword",
+      "text": "what's up",
+      "date": "2018-05-15T05:30:06.601Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 6,
+    "fields": {
+      "type": "greeting_keyword",
+      "text": "what's up dude",
+      "date": "2018-05-15T05:30:11.033Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 7,
+    "fields": {
+      "type": "greeting_response",
+      "text": "'sup bro",
+      "date": "2018-05-15T05:30:23.916Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 8,
+    "fields": {
+      "type": "greeting_response",
+      "text": "hey",
+      "date": "2018-05-15T05:30:33.354Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 9,
+    "fields": {
+      "type": "greeting_response",
+      "text": "*nods*",
+      "date": "2018-05-15T05:30:39.923Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 10,
+    "fields": {
+      "type": "greeting_response",
+      "text": "hey you get my snap?",
+      "date": "2018-05-15T05:30:56.639Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 11,
+    "fields": {
+      "type": "none_response",
+      "text": "uh whatever",
+      "date": "2018-05-15T05:31:53.728Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 12,
+    "fields": {
+      "type": "none_response",
+      "text": "meet me at the football table, bro?",
+      "date": "2018-05-15T05:32:03.525Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 13,
+    "fields": {
+      "type": "none_response",
+      "text": "want to bro down and crush code?",
+      "date": "2018-05-15T05:32:15.811Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 14,
+    "fields": {
+      "type": "none_response",
+      "text": "I'd like to add you to my professional network on LinkedIn",
+      "date": "2018-05-15T05:32:28.546Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 15,
+    "fields": {
+      "type": "none_response",
+      "text": "Have you closed your seed round, dog?",
+      "date": "2018-05-15T05:32:39.234Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 16,
+    "fields": {
+      "type": "comments_about_self",
+      "text": "You're just jealous",
+      "date": "2018-05-15T05:32:54.711Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 17,
+    "fields": {
+      "type": "comments_about_self",
+      "text": "I worked really hard on that",
+      "date": "2018-05-15T05:33:04.248Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 18,
+    "fields": {
+      "type": "comments_about_self",
+      "text": "My Klout score is 9000",
+      "date": "2018-05-15T05:33:15.889Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 19,
+    "fields": {
+      "type": "self_verbs_with_noun_caps_plural",
+      "text": "My last startup totally crushed the {noun} vertical",
+      "date": "2018-05-15T05:33:38.642Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 20,
+    "fields": {
+      "type": "self_verbs_with_noun_caps_plural",
+      "text": "Were you aware I was a serial entrepreneur in the {noun} sector?",
+      "date": "2018-05-15T05:33:46.101Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 21,
+    "fields": {
+      "type": "self_verbs_with_noun_caps_plural",
+      "text": "My startup is Uber for {noun}",
+      "date": "2018-05-15T05:33:55.289Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 22,
+    "fields": {
+      "type": "self_verbs_with_noun_caps_plural",
+      "text": "I really consider myself an expert on {noun}",
+      "date": "2018-05-15T05:34:04.313Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 23,
+    "fields": {
+      "type": "self_verbs_with_noun_lower",
+      "text": "Yeah but I know a lot about {noun}",
+      "date": "2018-05-15T05:34:16.377Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 24,
+    "fields": {
+      "type": "self_verbs_with_noun_lower",
+      "text": "My bros always ask me about {noun}",
+      "date": "2018-05-15T05:34:31.047Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 25,
+    "fields": {
+      "type": "self_verbs_with_adjective",
+      "text": "I'm personally building the {adjective} Economy",
+      "date": "2018-05-15T05:34:48.234Z"
+    }
+  },
+  {
+    "model": "bot.response",
+    "pk": 26,
+    "fields": {
+      "type": "self_verbs_with_adjective",
+      "text": "I consider myself to be a {adjective}preneur",
+      "date": "2018-05-15T05:35:01.084Z"
+    }
+  }
+]

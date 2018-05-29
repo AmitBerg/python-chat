@@ -6,14 +6,28 @@
         {% csrf_token %}
         {% for field in form %}
             <p>
-                {{ field.label_tag }}<br>
-                {{ field }}
-                {% if field.help_text %}
-                    <small style="color: grey">{{ field.help_text }}</small>
+                {% if field.name == "owner" %}
+                {% elif field.name == "staff_only" %}
+                    {% if user.is_superuser %}
+                        {{ field.label_tag }}<br>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <small style="color: grey">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <span style="color: red">{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                {% else %}
+                    {{ field.label_tag }}<br>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small style="color: grey">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <span style="color: red">{{ error }}</span>
+                    {% endfor %}
                 {% endif %}
-                {% for error in field.errors %}
-                    <p style="color: red">{{ error }}</p>
-                {% endfor %}
             </p>
         {% endfor %}
         <button class="btn btn-primary" type="submit">Create Room</button>

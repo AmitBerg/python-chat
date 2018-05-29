@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'channels',
     'chat',
+    'bot',
     'rest_framework',
     'easy_rest',
     'online_users'

@@ -73,6 +73,19 @@
     color: #94C2ED;
 }
 
+.bot{
+    color: indianred;
+}
+
+.bot-message{
+    background: indianred;
+}
+
+.chat .chat-history .bot-message:after{
+    border-bottom-color: indianred;
+    left: 93%;
+}
+
 .align-left {
     text-align: left;
 }
