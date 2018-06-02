@@ -65,6 +65,7 @@ def chat_join(message):
     # object that works just like request.user would. Security!
     room = get_room_or_error(message["room"], message.user)
 
+    # add the user to the room user list
     room.users.add(message.user)
 
     # Send a "enter message" to the room if available
