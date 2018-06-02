@@ -40,7 +40,7 @@ class ChatRoomsListView(LoginRequiredMixin, generic.ListView):
         return context
 
 
-class ChatRoomDetailView(generic.DetailView):
+class ChatRoomDetailView(LoginRequiredMixin, generic.DetailView):
     model = Room
     template_name = 'chat/single_room.html'
 
