@@ -3,8 +3,10 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.shortcuts import render, redirect, reverse
+
 from easy_rest.views import TemplateContextFetcherView, RestApiView
 
 import random
@@ -137,3 +139,15 @@ class UpdatePrivateRoom(UserPassesTestMixin, generic.UpdateView):
 
     def get_success_url(self):
         return reverse("chat:single_private_room", kwargs={"pk": self.get_object().pk})
+
+    def form_valid(self, form):
+        users = list(form.cleaned_data['users'])
+        if self.object.owner not in users:
+            users.append(self.object.owner)
+        if self.object.has_bot:
+            bot = User.objects.get_or_create(first_name="Bro", last_name="Bot", username="Brobot", password="brobot",
+                                             email="bro@bot.com")[0]
+            users.append(bot)
+        form.cleaned_data['users'] = users
+        form.save()
+        return super(UpdatePrivateRoom, self).form_valid(form)
