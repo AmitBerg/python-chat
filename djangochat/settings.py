@@ -173,6 +173,8 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Xg97qlyJ4mgQVlP0MKKEtj_F'  # Google Consumer
 SOCIAL_AUTH_TWITTER_KEY = 'Og5jTxDBDlRJSQv5qR5AYUSFR'  # Twitter Consumer Key
 SOCIAL_AUTH_TWITTER_SECRET = 'tnJGMukz6l3wfbhJ61poYzhB3uRbq47tDYObC0bzPysuEXhqjA'  # Twitter Consumer Secret
 
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+
 try:
     from .local import *
 except ImportError:
