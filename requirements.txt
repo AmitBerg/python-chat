@@ -12,4 +12,5 @@ django-currentuser
 textblob
 django-online-users
 nltk
+python-social-auth
 social-auth-app-django
