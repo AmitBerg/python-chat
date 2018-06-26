@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'bot',
     'rest_framework',
     'easy_rest',
-    'online_users'
+    'online_users',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -162,8 +163,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend',
+                           'social_core.backends.google.GoogleOAuth2',
+                           'social_core.backends.twitter.TwitterOAuth']
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '109880180797-2iepkcq6kgc0bob1k3s5ipfph05knh51.apps.googleusercontent.com'  # Google Consumer Key
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Xg97qlyJ4mgQVlP0MKKEtj_F'  # Google Consumer Secret
+
+SOCIAL_AUTH_TWITTER_KEY = 'Og5jTxDBDlRJSQv5qR5AYUSFR'  # Twitter Consumer Key
+SOCIAL_AUTH_TWITTER_SECRET = 'tnJGMukz6l3wfbhJ61poYzhB3uRbq47tDYObC0bzPysuEXhqjA'  # Twitter Consumer Secret
+
 try:
     from .local import *
 except ImportError:
     pass
-

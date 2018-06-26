@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('chat.urls')),
     url(r'^', include('bot.urls')),
+    url('social-auth/', include('social_django.urls', namespace='social')),
 
     # authentication
     url(r'^login/$', auth_views.login, name='login'),  # The base django login view

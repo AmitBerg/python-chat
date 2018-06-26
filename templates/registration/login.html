@@ -8,6 +8,8 @@
         <button class="btn btn-primary" type="submit">Login</button>
         <span style="font-weight: bold">Don't have an account? <a href="{% url 'signup' %}">Sign up</a></span>
     </form>
-
-
+    <a class="btn" style="background-color: #dd4b39 !important;"
+       href="{% url "social:begin" "google-oauth2" %}">Login with Google &nbsp;<i class="fab fa-google"></i></a>
+    <a class="btn" style="background-color: #1dcaff !important;"
+       href="{% url "social:begin" "twitter" %}">Login with Twitter &nbsp;<i class="fab fa-twitter"></i></a>
 {% endblock %}

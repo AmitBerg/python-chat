@@ -1,7 +1,8 @@
 <ul class="navbar-nav ml-auto">
-    {% if user.is_authenticated%}
+    {% if user.is_authenticated %}
         <li class="nav-item">
-            <span class="navbar-brand">Hello, <span id="username">{{ user }}</span></span>
+            <span class="navbar-brand">Hello, <span id="username">{% if user.first_name and user.last_name %}
+                {{ user.first_name }} {{ user.last_name }}{% else %}{{ user }}{% endif %}</span></span>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
