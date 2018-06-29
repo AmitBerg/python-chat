@@ -157,8 +157,7 @@ $(function () {
                 console.log("Cannot handle message!");
             }
 
-            $(window).unload(function () {
-                console.log("mmeeeeeeeeeee");
+            $(window).on("unload", function (e) {
                 socket.send(JSON.stringify({
                     "command": "leave",
                     "room": getRoomID()
