@@ -148,7 +148,7 @@ CHANNEL_LAYERS = {
         "ROUTING": "djangochat.routing.channel_routing",
     },
 }
-
+ 
 LOGIN_URL = '/login/'
 
 LOGIN_REDIRECT_URL = "/"
