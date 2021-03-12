@@ -1,4 +1,4 @@
-asgi-redis
+asgi-redis=1.4.3
 asgiref==1.0.0
 channels==1.1.8
 daphne==1.4.2
