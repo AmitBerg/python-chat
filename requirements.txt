@@ -2,7 +2,7 @@ asgi-redis==1.4.3
 asgiref==1.0.0
 channels==1.1.8
 daphne==1.4.2
-Django==2.1.4
+Django==2.2.24
 gunicorn==18.0
 whitenoise
 dj-database-url
